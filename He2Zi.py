@@ -1,91 +1,102 @@
 from logzero import logger
+from UnicodeTokenizer import UnicodeTokenizer
 
-star = '閵'
+star = '㢿'
+star = '#'
 
 """
     𤍽	𤑔 k,v  异体字\t本体字
     HeZi[𤑔]=HeZi[𤍽] if 𤍽 in 𤑔
     HeZi[v]=HeZi[k] if k in v
+异体字 冃	帽
     """
 
 
-def split(dic0, JiZi, YiTi, epoch=0):
-    giveup = set()
+def slim(v):
+    if len(v) <= 3:
+        return v
+    for x in v[1:-1]:
+        if x < '⿰' or x > '⿻':
+            w = v[0]+x+v[-1]
+            return w
+    return v
+
+
+def valid(seq, Ji):
+    s = slim(seq)
+    for x in s:
+        if x not in Ji:
+            return 0
+    return 1
+
+
+def odd(seq):
+    s = slim(seq)
+    for x in s:
+        if not UnicodeTokenizer.detect_hanzi(x):
+            return 1
+    return 0
+
+
+def split(dic0: dict, JiZi: set, YiTi: set, epoch=0):
     dic1 = {}
     for k, v in dic0.items():
-        if k == star:
-            d = 0
-        if k in giveup:
-            continue
-        if v in JiZi:
+        if k == star :
+            logger.info((k, v))
+
+        if valid(v, JiZi):
             dic1[k] = v
             continue
-        u = ''
-        for x in v:
-            w = dic0[x]
-            if w not in JiZi:
-                w = YiTi.get(w, w)
-                if epoch >= 5:
-                    giveup.add(k)
-                    # logger.info((k, v))
-            u += w.strip()
+
+        if epoch >= 4:
+            if k in YiTi:
+                u = dic0[YiTi[k]]
+                if valid(u, JiZi):
+                    dic1[k] = u
+                    continue
+
+        if epoch >= 5:
+            u = ''.join(YiTi.get(x, x) for x in v)
+            dic1[k] = u
+            continue
+
+        u = ''.join(dic0.get(x,x) for x in v)
         dic1[k] = u
-        for x in giveup:
-            if x in dic1:
-                del dic1[x]
-    logger.info(f"giveup:{len(giveup)} {''.join(giveup)}")
+
     base0 = set(''.join(x for x in dic0.values()))
     base1 = set(''.join(x for x in dic1.values()))
     logger.info((f"epoch:{epoch} base:{len(base0)} --> {len(base1)} "))
     return dic1
 
 
-def chai(JiZi: list, ChaiZi: list, YiTiZi: list):
-    HeZi = {k: v for k, v in ChaiZi}
-    JiZi=set(x for x in JiZi if x in HeZi)
+def chai(JiZi: set, ChaiZi: list, YiTiZi: list):
+    HeZi = {k: (k if odd(v) else v) for k, v in ChaiZi}
     for x in JiZi:
         HeZi[x] = x
 
-    YiTi = {}
-    for k, v in YiTiZi:
-        if k == star:
-            d = 0  # '帽'  层次拆字 新构件
-        if k in JiZi and v in JiZi:
-            continue
-        if k in JiZi and v not in JiZi:
-            k = v
-        YiTi[k] = v
+    YiTi = {k: v for k, v in YiTiZi}
 
-    for k, v in YiTi.items():
-        if v not in HeZi:  # v罕见
-            k, v = v, k
-        if v not in HeZi:  # v罕见
-            logger.warning((k, v))
-            continue
-        if k in JiZi:
-            continue
-        if k in HeZi[v]:  # 更细
-            HeZi[v] = HeZi[k]
-        if v in HeZi:
-            # if k < v:
-            # logger.warning((k, v))
-            HeZi[k] = HeZi[v]
-        elif k in HeZi:  # None
-            # logger.info((k, v)
-            continue
-
-    dic0 = {k: v for k, v in HeZi.items() if k and v}
-
+    dic0 = HeZi
     for i in range(8):
         dic1 = split(dic0, JiZi, YiTi, epoch=i)
         dic0 = dic1
 
-    dic0 = {k: v for k, v in dic0.items() if k and v}
+    dic1 = dic0
+    # dic1 = {k: slim(v) for k, v in dic0.items()}
+    giveup = [k for k, v in dic1.items() if not valid(v, JiZi)]
+    for x in giveup:
+        del dic1[x]
+
+    giveup = ''.join(giveup)
+    #  giveup:148 αℓ↔↷①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑲△いよりコサヨ㤙凫叏囙嬝嬽岛島捣搗枭梟槝蟂袅裊鄡不女﨩？𛂦𠄏𠑼𠒎𠗦𠝷𠩳𠪕𠳧𡀮𡆢𡋬𡏭𡑩𡖣𡙞𡚇𡠿𡭳�𡻅𢆴𢇭𢍴𢏻𢳚𣀴𣘖𣚝𣤝𣥒𣹋𣻴𤆿��𤟨𤡔𤤏𥅤𥉼𥦪𦃭𦆚𦚀𦣩𦥢𦬝𦮙𦳓𧒬𧙊𨥻𩓆𩡧𩤷𪜭𪵕𫋇𫌈𫮖𫽐𫽲𬂔𬇼𬔨𬵈𬻑𬻘𬻞𬻥𭁐𭄩𭇩𭔥𭖀𭖲𭗃𭚡𭥟𭬢𭮴𭱃𭱽𭲰��𮎳𮒮𮬁𮭹乁凵㠯𰅜𰒥𰙌𰜬𰨇𰳞𰻮�
+    logger.info(f"giveup:{len(giveup)} {giveup}")
+    dic0 = {k: v for k, v in dic1.items() if k and v}
     return dic0
 
 
 def build(JiZi, ChaiZiPath, YiTiZiPath,  HeZiPath, JiZiPath):
     JiZi = [x for x in JiZi if x]
+    JiZi = set(JiZi)
 
     doc = open(YiTiZiPath).read().splitlines()
     YiTiZi = [x.split('\t') for x in doc]
@@ -95,9 +106,11 @@ def build(JiZi, ChaiZiPath, YiTiZiPath,  HeZiPath, JiZiPath):
 
     HeZi = chai(JiZi, ChaiZi, YiTiZi)
 
-    Base = set(''.join(x for x in HeZi.values()))
+    # Base = set(''.join([x for x in HeZi.values()]))
+    Base = set(''.join(slim(x) for x in HeZi.values()))
 
-    diff = Base-set(JiZi)
+    diff = Base-JiZi
+    logger.info((len(JiZi), len(Base), len(diff)))  # (1719, 1719, 0)
     logger.info(''.join(diff))  #
     assert len(diff) == 0
 
