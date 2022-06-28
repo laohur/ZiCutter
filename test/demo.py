@@ -3,14 +3,22 @@ import os
 
 from logzero import logger
 
-from ZiCutter import ZiCutter
+from ZiCutter.ZiCutter import ZiCutter
+
+import pkg_resources
+
+# print(pkg_resources.resource_stream('ZiCutter', '*ChaiZi.txt'))
+# print(pkg_resources.resource_filename('ZiCutter', '*ChaiZi.txt'))
 
 if __name__ == "__main__":
     line = "'〇㎡[คุณจะจัดพิธีแต่งงานเมื่อไรคะัีิ์ื็ํึ]Ⅷpays-g[ran]d-blanc-élevé » (白高大夏國)😀熇'\x000𬼄"
+    # cutter = ZiCutter(dir="")
+    # for c in line:
+    #     print(cutter.cutChar(c))
 
     # build
-    # cutter = ZiCutter(dir="")
-    # cutter.build()
+    cutter = ZiCutter(dir="")
+    cutter.build()
 
     # use
     cutter = ZiCutter(dir="")
