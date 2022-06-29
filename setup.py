@@ -36,7 +36,7 @@ setup(
     # data_files=[('data', ['data/ChaiZi.txt'])],
 
     url='https://github.com/laohur/ZiCutter',
-    keywords=['ZiCutter', 'UnicodeTokenizer',
+    keywords=['ZiCutter', 'UnicodeTokenizer','ZiTokenizer',
               'Tokenizer', 'Unicode', 'laohur'],
     author='laohur',
     author_email='laohur@gmail.com',
