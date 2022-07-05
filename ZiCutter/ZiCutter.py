@@ -34,8 +34,7 @@ def valid(seq, Ji):
 
 
 def odd(seq):
-    s = slim(seq)
-    for x in s:
+    for x in seq:
         if not UnicodeTokenizer.detect_hanzi(x):
             return 1
     return 0
@@ -106,16 +105,13 @@ class ZiCutter:
         logger.info(f"{JiZiPath} load  JiZi:{len(JiZi)}")
         JiZi |= self.vocab
 
-        HeZi, values = loadHeZi(HeZiPath, self.vocab)
+        HeZi, values = loadHeZi(HeZiPath, JiZi)
         logger.info(f"{HeZiPath} HeZi:{len(HeZi)} values:{len(values)}")
         self.HeZi = HeZi
         self.vocab |= set(values)
-        logger.info(f"vocab:{len(self.vocab)}")
-        logger.info(f"{dir} loaded")
+        logger.info(f"{dir} loaded vocab:{len(self.vocab)}")
 
     def build(self, roots=[]):
-        # import logzero
-        # logzero.logfile(os.path.join(self.dir, "ZiCuterBuild.log"), mode="w")
         logger.info(f" {self.dir} building")
         JiZi = set(Bigrams) | set(YuanZi)
         JiZi |= set(roots)
@@ -137,7 +133,7 @@ class ZiCutter:
         return ids
 
     def cutRare(self, char):
-        assert len(char) == 1
+        # assert len(char) == 1
         tokens = []
         try:
             name = unicodedata.name(char)
@@ -153,7 +149,7 @@ class ZiCutter:
         return tokens
 
     def cutChar(self, char):
-        assert len(char) == 1
+        # assert len(char) == 1
         if char in self.vocab:
             return [char]
         if char in self.HeZi:
@@ -162,7 +158,13 @@ class ZiCutter:
         else:
             t = self.cutRare(char)
             return t
-
+            
+    def tokenize(self,line):
+        tokens=[]
+        for x in line:
+            tokens+=self.cutChar(x)
+        tokens=[x for x in tokens if x]
+        return tokens
 
 if __name__ == "__main__":
     star = "𱊮"

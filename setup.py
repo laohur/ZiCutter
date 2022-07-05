@@ -16,7 +16,7 @@ with open(path.join(here, 'readme.md')) as f:
 setup(
     name="ZiCutter",
     packages=find_packages(),
-    version='0.0.1',
+    version='0.0.2',
     description='ZiCutter: cut character smaller',
     long_description=long_description,
     long_description_content_type="text/markdown",
