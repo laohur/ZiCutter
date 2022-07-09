@@ -126,7 +126,7 @@ def build(JiZi, ChaiZiPath, YiTiZiPath,  HeZiPath, JiZiPath):
 
     Base = set(''.join(slim(x) for x in HeZi.values()))
     logger.info(f"HeZi:{len(HeZi)} Base:{len(Base)} ")
-    logger.info(f" useless:{''.join(JiZi-Base)} ")
+    logger.info(f" useless: {len(JiZi-Base)} {''.join(JiZi-Base)} ")
     diff = Base-JiZi
     logger.info(f"JiZi:{len(JiZi)}  diff:{len(diff)} {''.join(diff)}")  # (1719, 1719, 0)
     assert len(diff) == 0
