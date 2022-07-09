@@ -114,7 +114,7 @@ class ZiCutter:
         logger.info(f"vocab:{len(self.vocab)} JiZi:{len(JiZi)}")
         HeZiPath = os.path.join(self.dir, "HeZi.txt")
         JiZiPath = os.path.join(self.dir, "JiZi.txt")
-        He2Zi.build(JiZi, ChaiZiPath=os.path.join(self.HanZi, "ChaiZi.txt"), YiTiZiPath=os.path.join(self.HanZi, "YiTiZi.txt"),
+        He2Zi.build(JiZi, ChaiZiPath=os.path.join(self.HanZiDir, "ChaiZi.txt"), YiTiZiPath=os.path.join(self.HanZiDir, "YiTiZi.txt"),
                     HeZiPath=HeZiPath, JiZiPath=JiZiPath)
         self.load(self.dir)
 
