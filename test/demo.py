@@ -1,9 +1,45 @@
 import unicodedata
 import os
+import collections
 
 from logzero import logger
 
 from ZiCutter.ZiCutter import ZiCutter
+from UnicodeTokenizer.UnicodeTokenizer import UnicodeTokenizer
+
+
+def char_name(x, tokenizer):
+    try:
+        name = unicodedata.name(x)
+        # words = tokenizer.tokenize(name)
+        words = name.split(' ')
+        return words
+    except Exception as e:
+        return []
+
+
+def count_name():
+    tokenizer = UnicodeTokenizer()
+    freq = collections.Counter()
+    for i in range(0x110000):
+        words = char_name(chr(i), tokenizer)
+        if not words:
+            continue
+        x = words[-1][-2:].lstrip('-').lower()
+        freq[x] += 1
+    words = [(k, v) for k, v in freq.items()]
+    words.sort(key=lambda x: -x[1])
+    with open("name_tail_freq.txt", "w")as f:
+        for k, v in words:
+            f.write(f'{k}\t{v}\n')
+    logger.info(freq)
+
+
+def test_module():
+    from ZiCutter import ZiCutter
+
+    print(ZiCutter.Bigrams, len(ZiCutter.Bigrams))  # 1358
+    print(ZiCutter.GouJian, len(ZiCutter.GouJian))  # 2365
 
 
 def test_lang(dir):
@@ -14,18 +50,23 @@ def test_lang(dir):
 
     # use
     cutter = ZiCutter(dir=dir)
-    line = "'〇㎡[คุณจะจัดพิธีแต่งงานเมื่อไรคะัีิ์ื็ํึ]Ⅷpays-g[ran]d-blanc-élevé » (白高大夏國)😀熇'\x0000𧭏"
+    line = "'〇㎡[คุณจะจัดพิธีแต่งงานเมื่อไรคะัีิ์ื็ํึ]Ⅷpays-g[ran]d-blanc-élevé » (白高大夏國)熵😀'\x0000熇"
     print(cutter.tokenize(line))
 
 
 if __name__ == "__main__":
-    langs = ['sw', 'ur', 'ar', 'en', 'fr', 'ja', 'ru', 'zh', 'th','global']
+    # count_name()
+    # test_module()
+
+    langs = ["", 'sw', 'ur', 'ar', 'en', 'fr',
+             'ja', 'ru', 'zh', 'th', 'global']
     # langs = get_langs()
 
     for lang in langs:
         # dir = f"C:/data/lang/{lang}"
         dir = f"C:/data/languages/{lang}"
         test_lang(dir)
+        break
 
 
 """

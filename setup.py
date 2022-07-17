@@ -42,3 +42,9 @@ setup(
     author_email='laohur@gmail.com',
     license='[Anti-996 License](https: // github.com/996icu/996.ICU/blob/master/LICENSE)',
 )
+
+"""
+python setup.py sdist
+python setup.py bdist_wheel
+twine upload dist/*
+"""
