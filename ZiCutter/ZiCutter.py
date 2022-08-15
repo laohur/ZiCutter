@@ -3,7 +3,7 @@ import os
 
 from logzero import logger
 
-from UnicodeTokenizer import UnicodeTokenizer
+import UnicodeTokenizer
 
 from ZiCutter import He2Zi
 

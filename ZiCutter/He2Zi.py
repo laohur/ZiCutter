@@ -1,6 +1,6 @@
 from logzero import logger
 
-from UnicodeTokenizer import UnicodeTokenizer
+import UnicodeTokenizer
 import collections
 
 star = '䖵'

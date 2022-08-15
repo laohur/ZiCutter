@@ -5,7 +5,7 @@ from os import path
 import os
 
 packages = find_packages()
-print(packages)
+# print(packages)
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -16,7 +16,7 @@ with open(path.join(here, 'readme.md')) as f:
 setup(
     name="ZiCutter",
     packages=find_packages(),
-    version='0.0.3',
+    version='0.0.4',
     description='ZiCutter: cut character smaller',
     long_description=long_description,
     long_description_content_type="text/markdown",

@@ -4,8 +4,14 @@ import collections
 
 from logzero import logger
 
-from ZiCutter.ZiCutter import ZiCutter
-from UnicodeTokenizer.UnicodeTokenizer import UnicodeTokenizer
+from ZiCutter.ZiCutter import ZiCutter 
+import UnicodeTokenizer
+
+
+def get_langs():
+    alphabet = ''.join(chr(x) for x in range(ord('a'), ord('z')+1))
+    langs = [x+y for x in alphabet for y in alphabet]
+    return langs
 
 
 def char_name(x, tokenizer):
@@ -19,7 +25,7 @@ def char_name(x, tokenizer):
 
 
 def count_name():
-    tokenizer = UnicodeTokenizer()
+    tokenizer = UnicodeTokenizer.UnicodeTokenizer()
     freq = collections.Counter()
     for i in range(0x110000):
         words = char_name(chr(i), tokenizer)
@@ -33,6 +39,53 @@ def count_name():
         for k, v in words:
             f.write(f'{k}\t{v}\n')
     logger.info(freq)
+
+
+def char_name_first(x):
+    try:
+        name = unicodedata.name(x)
+        words = name.split(' ')
+        return words[0]
+    except Exception as e:
+        logger.error(x)
+        catg = unicodedata.category(x)
+        return catg
+
+
+def test_first(dir):
+    p = dir+'/word_frequency.tsv'
+    if not os.path.exists(p):
+        return
+    logger.info(p)
+    store = collections.Counter()
+    for l in open(p):
+        t = l.split('\t')[0]
+        if not t:
+            continue
+        names = [char_name_first(x) for x in t]
+        if len(set(names)) > 1:
+            logger.error((l, names))
+        store[names[0]] += 1
+    # logger.info(store)
+    return store
+
+def count_first():
+    freq=collections.Counter()
+    langs = get_langs()
+    for lang in langs:
+        # dir = f"C:/data/lang/{lang}"
+        dir = f"C:/data/languages/{lang}"
+        # test_lang(dir)
+        c=test_first(dir)
+        if c:
+            freq|=c
+    words = [(k, v) for k, v in freq.items()]
+    words.sort(key=lambda x: -x[1])
+    with open("name_first_freq.txt", "w")as f:
+        for k, v in words:
+            f.write(f'{k}\t{v}\n')
+    logger.info(freq)
+
 
 
 def test_module():
@@ -56,17 +109,19 @@ def test_lang(dir):
 
 if __name__ == "__main__":
     # count_name()
+    # count_first()
     # test_module()
 
     langs = ["", 'sw', 'ur', 'ar', 'en', 'fr',
              'ja', 'ru', 'zh', 'th', 'global']
-    # langs = get_langs()
+    langs = get_langs()
 
     for lang in langs:
         # dir = f"C:/data/lang/{lang}"
         dir = f"C:/data/languages/{lang}"
         test_lang(dir)
-        break
+        # test_first(dir)
+        # break
 
 
 """
