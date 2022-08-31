@@ -60,7 +60,7 @@ def gen_bigrams():
     # az2 = [x+y for x in az for y in az]
     # nums2 = [x+y for x in nums for y in nums]
     grams2 = [x+y for x in Alphabet for y in Alphabet]
-    idxs = ["##"+x for x in Az]
+    idxs =  ["##"+x for x in Az]+["##"+x+y for x in Az for y in Az]
     words = list(Alphabet)+grams2+idxs
     return words
 
@@ -127,15 +127,14 @@ class ZiCutter:
         tokens = []
         try:
             name = unicodedata.name(char)
-            l = name[0].lower()
-            r = name[-2:].strip().lstrip('-').lower()
+            l = name[:2].strip().strip('-').lower()
+            r = name[-2:].strip().strip('-').lower()
             tokens += ['##'+l, r]
         except:
             catg = unicodedata.category(char)
-            l = catg[0].lower()
-            r = ord(char) % 100
-            s = f'0{r}'[-2:]
-            tokens = ['##'+l, s]
+            l = catg[:2].strip().strip('-').lower()
+            r = hex(ord(char))[-2:].strip().strip('-')
+            tokens = ['##'+l, r]
         return tokens
 
     def cutChar(self, char):

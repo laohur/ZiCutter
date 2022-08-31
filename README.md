@@ -40,7 +40,7 @@ base: bigrams, [a~z][a~z],[0~9][0~9],#[a~z],#[0~9]
 
 
     '😀' : name is 'GRINNING FACE'
-    '😀' -> ["gr","#e"]
+    '😀' -> ["##gr","ce"]
 
 
 ## cut ids for HanZi

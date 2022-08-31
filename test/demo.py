@@ -14,10 +14,9 @@ def get_langs():
     return langs
 
 
-def char_name(x, tokenizer):
+def char_name(x):
     try:
         name = unicodedata.name(x)
-        # words = tokenizer.tokenize(name)
         words = name.split(' ')
         return words
     except Exception as e:
@@ -28,7 +27,7 @@ def count_name():
     tokenizer = UnicodeTokenizer.UnicodeTokenizer()
     freq = collections.Counter()
     for i in range(0x110000):
-        words = char_name(chr(i), tokenizer)
+        words = char_name(chr(i))
         if not words:
             continue
         x = words[-1][-2:].lstrip('-').lower()
@@ -91,9 +90,17 @@ def count_first():
 def test_module():
     from ZiCutter import ZiCutter
 
-    print(ZiCutter.Bigrams, len(ZiCutter.Bigrams))  # 1358
-    print(ZiCutter.GouJian, len(ZiCutter.GouJian))  # 2365
-
+    logger.info((ZiCutter.Bigrams[:100], len(ZiCutter.Bigrams)))  # 2008
+    logger.info((ZiCutter.GouJian, len(ZiCutter.GouJian)))  # 2365
+    cutter=ZiCutter.ZiCutter()
+    logger.info(len(cutter.vocab))  # 4399
+    for i in range(0x10FFFF):
+        c = chr(i)
+        ts=cutter.cutChar(c)
+        for x in ts:
+            if x not in cutter.vocab:
+                logger.error((chr(i),ts,unicodedata.name(c)))
+                d=0
 
 def test_lang(dir):
 
@@ -104,57 +111,58 @@ def test_lang(dir):
     # use
     cutter = ZiCutter(dir=dir)
     line = "'〇㎡[คุณจะจัดพิธีแต่งงานเมื่อไรคะัีิ์ื็ํึ]Ⅷpays-g[ran]d-blanc-élevé » (白高大夏國)熵😀'\x0000熇"
-    print(cutter.tokenize(line))
+    logger.info(cutter.tokenize(line))
 
 
 if __name__ == "__main__":
     # count_name()
     # count_first()
-    # test_module()
+    test_module()
 
     langs = ["", 'sw', 'ur', 'ar', 'en', 'fr',
              'ja', 'ru', 'zh', 'th', 'global']
-    langs = get_langs()
+    # langs = get_langs()
 
     for lang in langs:
         # dir = f"C:/data/lang/{lang}"
         dir = f"C:/data/languages/{lang}"
+        if not os.path.exists(dir):
+            continue
         test_lang(dir)
         # test_first(dir)
         # break
 
 
 """
-[I 220710 00:27:38 ZiCutter:105] C:/data/languages/global\JiZi.txt load  JiZi:1719
-[I 220710 00:27:39 ZiCutter:55]   C:/data/languages/global\HeZi.txt JiZi:3727 --> loadHeZi 92463  values:1041
-[I 220710 00:27:39 ZiCutter:109] C:/data/languages/global\HeZi.txt HeZi:92463 values:1041
-[I 220710 00:27:39 ZiCutter:112] C:/data/languages/global loaded vocab:3727
-[I 220710 00:27:39 ZiCutter:115]  C:/data/languages/global building
-[I 220710 00:27:39 ZiCutter:120] vocab:3727 JiZi:1755
-[I 220710 00:27:39 He2Zi:122] JiZi:1755 ChaiZi:94235 YiTiZi:27440
-[I 220710 00:27:41 He2Zi:70] epoch:0 base:11264 --> 3216 
-[I 220710 00:27:41 He2Zi:70] epoch:1 base:3216 --> 1959 
-[I 220710 00:27:42 He2Zi:70] epoch:2 base:1959 --> 1944 
-[I 220710 00:27:42 He2Zi:70] epoch:3 base:1944 --> 1944 
-[I 220710 00:27:42 He2Zi:70] epoch:4 base:1944 --> 1837 
-[I 220710 00:27:43 He2Zi:70] epoch:5 base:1837 --> 1829 
-[I 220710 00:27:43 He2Zi:70] epoch:6 base:1829 --> 1828 
-[I 220710 00:27:44 He2Zi:70] epoch:7 base:1828 --> 1828 
-[I 220710 00:27:44 He2Zi:104] giveup:246 㢿㤙㬋㮢㯛䂉䒭䗔䙈䞀䫛䳧侯候凫叏喉囙堠壺嬝嬽岛島帿捣搗枭梟槝猴瘊睺篌糇緱缑翭葔蟂袅裊鄇鄡鍭餱鯸不女﨩爵𠄏𠇡𠉀𠋫𠍋𠎖𠐲𠑼𠒎𠖁𠗦𠝷𠩳
-𠪕𠬫𠳧𡀮𡆢𡋬𡏭𡐝𡑩𡕏𡖣𡗁𡙞𡚇𡟑𡠿𡭳𡷊𡹵𡻅𢆴𢇭𢉺𢉻𢊇𢋵𢍴𢏻𢜵𢦘𢰡𢳚𣀨𣀴𣘖𣚝𣝄𣣠𣤝𣤼𣥒𣹋𣻴𤂏𤆿𤒉𤜓𤟨𤠣𤡔𤤏𤧝𤬈𥀃𥅤𥉼𥛪𥦪𥧻𥱌𦃭𦃺𦆚𦑤𦔗𦚀𦞈𦣩𦥢𦬝𦮙𦳓𦺟𧃭𧇹𧐳𧒬𧙊𧩨𧯁𧱊𧳱𨁳𨄭�𨝧𨥻𨬀𨭤𨺅𩃺𩋴𩌖𩓆𩘋𩡧𩤷𩩵𩺟𪃶𪅺𪈱𪑻𪜭𪵕𪹍𫋇𫌈𫑃𫗯𫛺𫮖𫸪𫽐𫽲𬀘𬂔𬅌𬇼𬋢𬑟𬔨𬥽𬫺𬬢𬭤𬵈𬻑𬻘𬻞𬻥𭁐𭄩𭆴��𭏑𭏒𭒭𭔥𭖀𭖲𭗃𭚡𭜤𭥟𭬍𭬢𭭧𭮴𭱃𭱎𭱐𭱽𭲞𭲰𭵄𮅏𮌧𮍇𮎳𮒮𮓢𮗙𮚊𮡭𮬁𮭹乁凵�㠯㨮𥚚𰅜𰒥𰙌𰜬𰨇𰲞𰳞𰷾𰻮𱈄
-[I 220710 00:27:44 He2Zi:105] useless:38 dfnhe0sci6oy271pbmvquk93x84l5zt�wagrjチ
-[I 220710 00:27:44 He2Zi:128] HeZi:94180 Base:1717
-[I 220710 00:27:44 He2Zi:129]  useless: 38 jzceifb6n21u98a4q3t07lpyxgomvhチdswrk�5
-[I 220710 00:27:44 He2Zi:131] JiZi:1755  diff:0
-[I 220710 00:27:44 He2Zi:147] HeZi build success -> C:/data/languages/global\HeZi.txt  C:/data/languages/global\JiZi.txt
-[I 220710 00:27:44 ZiCutter:105] C:/data/languages/global\JiZi.txt load  JiZi:1719
-[I 220710 00:27:45 ZiCutter:55]   C:/data/languages/global\HeZi.txt JiZi:3727 --> loadHeZi 92463  values:1041
-[I 220710 00:27:45 ZiCutter:109] C:/data/languages/global\HeZi.txt HeZi:92463 values:1041
-[I 220710 00:27:45 ZiCutter:112] C:/data/languages/global loaded vocab:3727
-[I 220710 00:27:45 ZiCutter:105] C:/data/languages/global\JiZi.txt load  JiZi:1719
-[I 220710 00:27:45 ZiCutter:55]   C:/data/languages/global\HeZi.txt JiZi:3727 --> loadHeZi 92463  values:1041
-[I 220710 00:27:45 ZiCutter:109] C:/data/languages/global\HeZi.txt HeZi:92463 values:1041
-[I 220710 00:27:45 ZiCutter:112] C:/data/languages/global loaded vocab:3727
-['##co', '15', '##ap', 'he', '〇', '##sq', 'ed', '##le', 'et', '##th', 'ai', '##th', 'u', '##th', 'en', '##th', 'an', '##th', 'a', '##th', 'an', '##th', 'at', '##th', 'ek', '##th', 'an', '##th', 'i', '##th', 'ng', '##th', 'ii', '##th', 'ae', '##th', 'ao', '##th', 'ek', '##th', 'gu', '##th', 'gu', '##th', 'aa', '##th', 'nu', '##th', 'e', '##th', 'ma', '##th', 'ee', '##th', 'ek', '##th', 'ng', '##th', 'ai', '##th', 'ua', '##th', 'ai', '##th', 'a', '##th', 'at', '##th', 'ii', '##th', 'i', '##th', 'at', '##th', 'ee', '##th', 'hu', '##th', 'it', '##th', 'ue', '##ri', 'et', '##ro', 'ht', 'p', 'a', 'y', 's', '##hy', 'us', 'g', '##le', 'et', 'r', 'a', 'n', '##ri', 'et', 'd', 
-'##hy', 'us', 'b', 'l', 'a', 'n', 'c', '##hy', 'us', '##la', 'te', 'l', 'e', 'v', '##la', 'te', '##sp', 'ce', '##ri', 'rk', '##sp', 'ce', '##le', 'is', '白', '高', '大', '⿱', '一', '夊', '⿴', '囗', '或', '##ri', 'is', '##gr', 'ce', '⿰', '火', '高', '##ap', 'he', '##cc', '00', '0', '0', '⿰', '言', '至']
+[W 220831 23:19:47 ZiCutter:109]  C:/data/languages/global building
+[I 220831 23:19:47 ZiCutter:112] receive roots:0 JiZi:2401
+[I 220831 23:19:47 He2Zi:100] JiZi:2401 ChaiZi:94235 YiTiZi:27440
+[I 220831 23:19:48 He2Zi:51] epoch:0 base:10715 --> 3236 
+[I 220831 23:19:48 He2Zi:51] epoch:1 base:3236 --> 2876 
+[I 220831 23:19:48 He2Zi:51] epoch:2 base:2876 --> 2875 
+[I 220831 23:19:48 He2Zi:51] epoch:3 base:2875 --> 2875 
+[I 220831 23:19:49 He2Zi:51] epoch:4 base:2875 --> 2859 
+[I 220831 23:19:49 He2Zi:51] epoch:5 base:2859 --> 2858 
+[I 220831 23:19:50 He2Zi:51] epoch:6 base:2858 --> 2858 
+[I 220831 23:19:50 He2Zi:51] epoch:7 base:2858 --> 2858 
+[I 220831 23:19:50 He2Zi:84] giveup v:501 ⺁⺂⺃⺅⺇⺉⺋⺍⺎⺏⺐⺑⺒⺓⺔⺖⺗⺘⺙⺛⺜⺞⺟⺠⺡⺢⺣⺤⺥⺦⺧⺨⺩⺪⺫⺬⺭⺮⺯⺰⺱⺲⺳⺴⺵⺶⺷⺹⺺⺽⺾⺿⻀⻁⻂⻃⻄⻅⻆⻇⻈⻉⻊
+⻋⻌⻍⻎⻏⻐⻑⻒⻓⻔⻕⻖⻗⻘⻙⻚⻛⻜⻝⻞⻟⻠⻡⻢⻣⻤⻥⻦⻧⻨⻩⻪⻫⻬⻭⻮⻯⻰⻱⻲⻳⼀⼁⼂⼃⼄⼅⼆⼇⼈⼉⼊⼋⼌⼍⼎⼏⼐⼑⼒⼓⼔⼕⼖⼗⼘⼙⼚⼛⼜⼝⼞⼟⼠⼡⼢⼣⼤⼥⼦⼧⼨⼩⼪ 
+⼫⼬⼭⼮⼯⼰⼱⼲⼳⼴⼵⼶⼷⼸⼹⼺⼻⼼⼽⼾⼿⽀⽁⽂⽃⽄⽅⽆⽇⽈⽉⽊⽋⽌⽍⽎⽏⽐⽑⽒⽓⽔⽕⽖⽗⽘⽙⽚⽛⽜⽝⽞⽟⽠⽡⽢⽣⽤⽥⽦⽧⽨⽩⽪⽫⽬⽭⽮⽯⽰⽱⽲⽳⽴⽵⽶⽷⽸⽹⽺⽻⽼⽽⽾ 
+⽿⾀⾁⾂⾃⾄⾅⾆⾇⾈⾉⾊⾋⾌⾍⾎⾏⾐⾑⾒⾓⾔⾕⾖⾗⾘⾙⾚⾛⾜⾝⾞⾟⾠⾡⾢⾣⾤⾥⾦⾧⾨⾩⾪⾫⾬⾭⾮⾯⾰⾱⾲⾳⾴⾵⾶⾷⾸⾹⾺⾻⾼⾽⾾⾿⿀⿁⿂⿃⿄⿅⿆⿇⿈⿉⿊⿋⿌⿍⿎⿏⿐⿑⿒ 
+⿓⿔⿕〇㇀㇃㇅㇆㇊㇋㇌㇍㇎㇏㇐㇑㇒㇔㇕㇖㇗㇘㇙㇚㇛㇜㇝㇞㇟㇠㇡㇢㇣㐃㐆㐧㔔㪳㫈䍏乁乄书亊亪円卍卐孒孓曱女卑既碑辶爵𠀀𠀈𠀌𠀍𠀑𠀟𠁢𠁦𠁧𠁩𠁰𠁱𠁾𠂀𠂂𠂍𠂣𠂼𠃉𠃛𠃢�𠄙𠑹𠒂𠕄𠖁��𠝎𠤬𠥃𠥻𠦁𠩳𡆵𡋬𡗒𡜏𡭔𡭳𡯁𡰴𡳿𢁺𢌰𢎗𢎜𢎧𢎱𢩯𢩴𢮮𣅲𣒚𣗭𣦶𣫬𣴁𤐁𤘍𤤃𤦡𤰃𤽆𥃅𥆞𥝌𥸨𦉭𦣵𦤄𦥒𦥫𦥺𦨃𦫵𦭩��𧺐𨈏𨈐𨈑𨳇𨳈𩂚𩇦𩇧𩇨𩙱𩰊𩰋𪓕𪓝𪚦𪛉𪛙𪛛𪭣𫇧𫝖𫩦𬫬𬺷𬻆𬼁𬼂𬼄𬼘𬽡𭅫𭔥𭖀�𭣔𭣚𭨘𭮱𭮴𭱐𭱽𭳄𭺪𮍠𮎳𮒮𮠕乁㠯𰁈𰑓
+[I 220831 23:19:50 He2Zi:85] useless k:44 ce2o5p8mu9kvユ3↔gt④6w7③hコzf⑦4nayj01xl？irqdsb↷
+[I 220831 23:19:50 He2Zi:104] HeZi:93746 Base:2365 
+[I 220831 23:19:50 He2Zi:105]  useless: 36 e81xpl9yk6fwigzj0n3a24ucvh7otrqs5mbd
+[I 220831 23:19:50 He2Zi:107] ('jizi diff', 2401, 0, '')
+[I 220831 23:19:50 He2Zi:123] HeZi build success -> C:/data/languages/global\HeZi.txt  C:/data/languages/global\JiZi.txt
+[I 220831 23:19:50 ZiCutter:98] C:/data/languages/global\JiZi.txt load  JiZi:2365
+[I 220831 23:19:51 ZiCutter:49]   C:/data/languages/global\HeZi.txt JiZi:2365 --> loadHeZi 93746  values:2365
+[I 220831 23:19:51 ZiCutter:103] C:/data/languages/global\HeZi.txt HeZi:93746 values:2365
+[I 220831 23:19:51 ZiCutter:106] C:/data/languages/global loaded vocab:4399
+[I 220831 23:19:51 ZiCutter:98] C:/data/languages/global\JiZi.txt load  JiZi:2365
+[I 220831 23:19:51 ZiCutter:49]   C:/data/languages/global\HeZi.txt JiZi:2365 --> loadHeZi 93746  values:2365
+[I 220831 23:19:51 ZiCutter:103] C:/data/languages/global\HeZi.txt HeZi:93746 values:2365
+[I 220831 23:19:51 ZiCutter:106] C:/data/languages/global loaded vocab:4399
+[I 220831 23:19:51 demo:114] ['##co', '7f', '##ap', 'he', '##id', 'ro', '##sq', 'ed', '##le', 'et', '##th', 'ai', '##th', 'u', '##th', 'en', '##th', 'an', '##th', 'a', '##th', 'an', '##th', 'at', '##th', 'ek', '##th', 'an', '##th', 'i', '##th', 'ng', '##th', 'ii', '##th', 'ae', '##th', 'ao', '##th', 'ek', '##th', 'gu', '##th', 'gu', '##th', 'aa', '##th', 'nu', '##th', 'e', '##th', 'ma', '##th', 'ee', '##th', 'ek', '##th', 'ng', '##th', 'ai', '##th', 'ua', '##th', 'ai', '##th', 'a', '##th', 'at', '##th', 'ii', '##th', 'i', '##th', 'at', '##th', 'ee', '##th', 'hu', '##th', 'it', '##th', 'ue', '##ri', 'et', '##ro', 'ht', 'p', 'a', 'y', 's', '##hy', 'us', 'g', '##le', 'et', 'r', 'a', 'n', '##ri', 'et', 'd', '##hy', 'us', 'b', 'l', 'a', 'n', 'c', '##hy', 'us', '##la', 'te', 'l', 'e', 'v', '##la', 'te', '##sp', 'ce', '##ri', 'rk', '##sp', 
+'ce', '##le', 'is', '白', '高', '大', '夏', '國', '##ri', 'is', '⿰', '火', '商', '##gr', 'ce', '##ap', 'he', '##cc', 'x0', '0', '0', '⿰', '火', '高']
 """
