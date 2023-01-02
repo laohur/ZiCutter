@@ -1,7 +1,5 @@
 from logzero import logger
 
-import UnicodeTokenizer
-import collections
 
 star = '䖵'
 
@@ -55,7 +53,7 @@ def split(dic0: dict, JiZi: set, YiTi: set, epoch=0):
 def chai(JiZi: set, ChaiZi: list, YiTiZi: list):
     HeZi = {}
     for k, v in ChaiZi:
-        if not UnicodeTokenizer.detect_hanzi(k):
+        if ord(k)<10000:
             continue
         HeZi[k] = v
 
@@ -73,7 +71,7 @@ def chai(JiZi: set, ChaiZi: list, YiTiZi: list):
     giveup = []
     useless = []
     for k, v in dic0.items():
-        if UnicodeTokenizer.detect_hanzi(k):
+        if ord(k) > 10000:
             if valid(v, JiZi):
                 dic1[k] = v
             else:
@@ -95,7 +93,7 @@ def build(JiZi, ChaiZiPath, YiTiZiPath,  HeZiPath, JiZiPath):
 
     doc = open(ChaiZiPath).read().splitlines()
     ChaiZi = [x.split('\t') for x in doc]
-    ChaiZi = [x for x in ChaiZi if UnicodeTokenizer.detect_hanzi(x[0])]
+    ChaiZi = [x for x in ChaiZi if ord(x[0])>10000]
 
     logger.info(f"JiZi:{len(JiZi)} ChaiZi:{len(ChaiZi)} YiTiZi:{len(YiTiZi)}")
     HeZi = chai(JiZi, ChaiZi, YiTiZi)

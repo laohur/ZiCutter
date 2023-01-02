@@ -134,35 +134,35 @@ if __name__ == "__main__":
 
 
 """
-[W 220831 23:19:47 ZiCutter:109]  C:/data/languages/global building
-[I 220831 23:19:47 ZiCutter:112] receive roots:0 JiZi:2401
-[I 220831 23:19:47 He2Zi:100] JiZi:2401 ChaiZi:94235 YiTiZi:27440
-[I 220831 23:19:48 He2Zi:51] epoch:0 base:10715 --> 3236 
-[I 220831 23:19:48 He2Zi:51] epoch:1 base:3236 --> 2876 
-[I 220831 23:19:48 He2Zi:51] epoch:2 base:2876 --> 2875 
-[I 220831 23:19:48 He2Zi:51] epoch:3 base:2875 --> 2875 
-[I 220831 23:19:49 He2Zi:51] epoch:4 base:2875 --> 2859 
-[I 220831 23:19:49 He2Zi:51] epoch:5 base:2859 --> 2858 
-[I 220831 23:19:50 He2Zi:51] epoch:6 base:2858 --> 2858 
-[I 220831 23:19:50 He2Zi:51] epoch:7 base:2858 --> 2858 
-[I 220831 23:19:50 He2Zi:84] giveup v:501 ⺁⺂⺃⺅⺇⺉⺋⺍⺎⺏⺐⺑⺒⺓⺔⺖⺗⺘⺙⺛⺜⺞⺟⺠⺡⺢⺣⺤⺥⺦⺧⺨⺩⺪⺫⺬⺭⺮⺯⺰⺱⺲⺳⺴⺵⺶⺷⺹⺺⺽⺾⺿⻀⻁⻂⻃⻄⻅⻆⻇⻈⻉⻊
+[W 230102 18:18:08 ZiCutter:101]  C:/data/languages/global building
+[I 230102 18:18:08 ZiCutter:104] receive roots:0 JiZi:2401
+[I 230102 18:18:08 He2Zi:98] JiZi:2401 ChaiZi:94235 YiTiZi:27440
+[I 230102 18:18:08 He2Zi:49] epoch:0 base:10715 --> 3236 
+[I 230102 18:18:08 He2Zi:49] epoch:1 base:3236 --> 2876 
+[I 230102 18:18:08 He2Zi:49] epoch:2 base:2876 --> 2875 
+[I 230102 18:18:08 He2Zi:49] epoch:3 base:2875 --> 2875 
+[I 230102 18:18:09 He2Zi:49] epoch:4 base:2875 --> 2859 
+[I 230102 18:18:09 He2Zi:49] epoch:5 base:2859 --> 2858 
+[I 230102 18:18:09 He2Zi:49] epoch:6 base:2858 --> 2858 
+[I 230102 18:18:09 He2Zi:49] epoch:7 base:2858 --> 2858 
+[I 230102 18:18:09 He2Zi:82] giveup v:501 ⺁⺂⺃⺅⺇⺉⺋⺍⺎⺏⺐⺑⺒⺓⺔⺖⺗⺘⺙⺛⺜⺞⺟⺠⺡⺢⺣⺤⺥⺦⺧⺨⺩⺪⺫⺬⺭⺮⺯⺰⺱⺲⺳⺴⺵⺶⺷⺹⺺⺽⺾⺿⻀⻁⻂⻃⻄⻅⻆⻇⻈⻉⻊
 ⻋⻌⻍⻎⻏⻐⻑⻒⻓⻔⻕⻖⻗⻘⻙⻚⻛⻜⻝⻞⻟⻠⻡⻢⻣⻤⻥⻦⻧⻨⻩⻪⻫⻬⻭⻮⻯⻰⻱⻲⻳⼀⼁⼂⼃⼄⼅⼆⼇⼈⼉⼊⼋⼌⼍⼎⼏⼐⼑⼒⼓⼔⼕⼖⼗⼘⼙⼚⼛⼜⼝⼞⼟⼠⼡⼢⼣⼤⼥⼦⼧⼨⼩⼪ 
 ⼫⼬⼭⼮⼯⼰⼱⼲⼳⼴⼵⼶⼷⼸⼹⼺⼻⼼⼽⼾⼿⽀⽁⽂⽃⽄⽅⽆⽇⽈⽉⽊⽋⽌⽍⽎⽏⽐⽑⽒⽓⽔⽕⽖⽗⽘⽙⽚⽛⽜⽝⽞⽟⽠⽡⽢⽣⽤⽥⽦⽧⽨⽩⽪⽫⽬⽭⽮⽯⽰⽱⽲⽳⽴⽵⽶⽷⽸⽹⽺⽻⽼⽽⽾ 
 ⽿⾀⾁⾂⾃⾄⾅⾆⾇⾈⾉⾊⾋⾌⾍⾎⾏⾐⾑⾒⾓⾔⾕⾖⾗⾘⾙⾚⾛⾜⾝⾞⾟⾠⾡⾢⾣⾤⾥⾦⾧⾨⾩⾪⾫⾬⾭⾮⾯⾰⾱⾲⾳⾴⾵⾶⾷⾸⾹⾺⾻⾼⾽⾾⾿⿀⿁⿂⿃⿄⿅⿆⿇⿈⿉⿊⿋⿌⿍⿎⿏⿐⿑⿒ 
 ⿓⿔⿕〇㇀㇃㇅㇆㇊㇋㇌㇍㇎㇏㇐㇑㇒㇔㇕㇖㇗㇘㇙㇚㇛㇜㇝㇞㇟㇠㇡㇢㇣㐃㐆㐧㔔㪳㫈䍏乁乄书亊亪円卍卐孒孓曱女卑既碑辶爵𠀀𠀈𠀌𠀍𠀑𠀟𠁢𠁦𠁧𠁩𠁰𠁱𠁾𠂀𠂂𠂍𠂣𠂼𠃉𠃛𠃢�𠄙𠑹𠒂𠕄𠖁��𠝎𠤬𠥃𠥻𠦁𠩳𡆵𡋬𡗒𡜏𡭔𡭳𡯁𡰴𡳿𢁺𢌰𢎗𢎜𢎧𢎱𢩯𢩴𢮮𣅲𣒚𣗭𣦶𣫬𣴁𤐁𤘍𤤃𤦡𤰃𤽆𥃅𥆞𥝌𥸨𦉭𦣵𦤄𦥒𦥫𦥺𦨃𦫵𦭩��𧺐𨈏𨈐𨈑𨳇𨳈𩂚𩇦𩇧𩇨𩙱𩰊𩰋𪓕𪓝𪚦𪛉𪛙𪛛𪭣𫇧𫝖𫩦𬫬𬺷𬻆𬼁𬼂𬼄𬼘𬽡𭅫𭔥𭖀�𭣔𭣚𭨘𭮱𭮴𭱐𭱽𭳄𭺪𮍠𮎳𮒮𮠕乁㠯𰁈𰑓
-[I 220831 23:19:50 He2Zi:85] useless k:44 ce2o5p8mu9kvユ3↔gt④6w7③hコzf⑦4nayj01xl？irqdsb↷
-[I 220831 23:19:50 He2Zi:104] HeZi:93746 Base:2365 
-[I 220831 23:19:50 He2Zi:105]  useless: 36 e81xpl9yk6fwigzj0n3a24ucvh7otrqs5mbd
-[I 220831 23:19:50 He2Zi:107] ('jizi diff', 2401, 0, '')
-[I 220831 23:19:50 He2Zi:123] HeZi build success -> C:/data/languages/global\HeZi.txt  C:/data/languages/global\JiZi.txt
-[I 220831 23:19:50 ZiCutter:98] C:/data/languages/global\JiZi.txt load  JiZi:2365
-[I 220831 23:19:51 ZiCutter:49]   C:/data/languages/global\HeZi.txt JiZi:2365 --> loadHeZi 93746  values:2365
-[I 220831 23:19:51 ZiCutter:103] C:/data/languages/global\HeZi.txt HeZi:93746 values:2365
-[I 220831 23:19:51 ZiCutter:106] C:/data/languages/global loaded vocab:4399
-[I 220831 23:19:51 ZiCutter:98] C:/data/languages/global\JiZi.txt load  JiZi:2365
-[I 220831 23:19:51 ZiCutter:49]   C:/data/languages/global\HeZi.txt JiZi:2365 --> loadHeZi 93746  values:2365
-[I 220831 23:19:51 ZiCutter:103] C:/data/languages/global\HeZi.txt HeZi:93746 values:2365
-[I 220831 23:19:51 ZiCutter:106] C:/data/languages/global loaded vocab:4399
-[I 220831 23:19:51 demo:114] ['##co', '7f', '##ap', 'he', '##id', 'ro', '##sq', 'ed', '##le', 'et', '##th', 'ai', '##th', 'u', '##th', 'en', '##th', 'an', '##th', 'a', '##th', 'an', '##th', 'at', '##th', 'ek', '##th', 'an', '##th', 'i', '##th', 'ng', '##th', 'ii', '##th', 'ae', '##th', 'ao', '##th', 'ek', '##th', 'gu', '##th', 'gu', '##th', 'aa', '##th', 'nu', '##th', 'e', '##th', 'ma', '##th', 'ee', '##th', 'ek', '##th', 'ng', '##th', 'ai', '##th', 'ua', '##th', 'ai', '##th', 'a', '##th', 'at', '##th', 'ii', '##th', 'i', '##th', 'at', '##th', 'ee', '##th', 'hu', '##th', 'it', '##th', 'ue', '##ri', 'et', '##ro', 'ht', 'p', 'a', 'y', 's', '##hy', 'us', 'g', '##le', 'et', 'r', 'a', 'n', '##ri', 'et', 'd', '##hy', 'us', 'b', 'l', 'a', 'n', 'c', '##hy', 'us', '##la', 'te', 'l', 'e', 'v', '##la', 'te', '##sp', 'ce', '##ri', 'rk', '##sp', 
+[I 230102 18:18:09 He2Zi:83] useless k:41 v9a47↔0q2blwezds5ruo③8hciyf6⑦gpxjk13tn↷④m
+[I 230102 18:18:09 He2Zi:102] HeZi:93749 Base:2365 
+[I 230102 18:18:09 He2Zi:103]  useless: 36 y1o3velt58pmqcrd2sa4j9if7zkhug0wn6bx
+[I 230102 18:18:09 He2Zi:105] ('jizi diff', 2401, 0, '')
+[I 230102 18:18:09 He2Zi:121] HeZi build success -> C:/data/languages/global\HeZi.txt  C:/data/languages/global\JiZi.txt
+[I 230102 18:18:09 ZiCutter:90] C:/data/languages/global\JiZi.txt load  JiZi:2365
+[I 230102 18:18:09 ZiCutter:41]   C:/data/languages/global\HeZi.txt JiZi:2365 --> loadHeZi 93749  values:2365
+[I 230102 18:18:09 ZiCutter:95] C:/data/languages/global\HeZi.txt HeZi:93749 values:2365
+[I 230102 18:18:09 ZiCutter:98] C:/data/languages/global loaded vocab:4399
+[I 230102 18:18:09 ZiCutter:90] C:/data/languages/global\JiZi.txt load  JiZi:2365
+[I 230102 18:18:10 ZiCutter:41]   C:/data/languages/global\HeZi.txt JiZi:2365 --> loadHeZi 93749  values:2365
+[I 230102 18:18:10 ZiCutter:95] C:/data/languages/global\HeZi.txt HeZi:93749 values:2365
+[I 230102 18:18:10 ZiCutter:98] C:/data/languages/global loaded vocab:4399
+[I 230102 18:18:10 demo:114] ['##co', '7f', '##ap', 'he', '##id', 'ro', '##sq', 'ed', '##le', 'et', '##th', 'ai', '##th', 'u', '##th', 'en', '##th', 'an', '##th', 'a', '##th', 'an', '##th', 'at', '##th', 'ek', '##th', 'an', '##th', 'i', '##th', 'ng', '##th', 'ii', '##th', 'ae', '##th', 'ao', '##th', 'ek', '##th', 'gu', '##th', 'gu', '##th', 'aa', '##th', 'nu', '##th', 'e', '##th', 'ma', '##th', 'ee', '##th', 'ek', '##th', 'ng', '##th', 'ai', '##th', 'ua', '##th', 'ai', '##th', 'a', '##th', 'at', '##th', 'ii', '##th', 'i', '##th', 'at', '##th', 'ee', '##th', 'hu', '##th', 'it', '##th', 'ue', '##ri', 'et', '##ro', 'ht', 'p', 'a', 'y', 's', '##hy', 'us', 'g', '##le', 'et', 'r', 'a', 'n', '##ri', 'et', 'd', '##hy', 'us', 'b', 'l', 'a', 'n', 'c', '##hy', 'us', '##la', 'te', 'l', 'e', 'v', '##la', 'te', '##sp', 'ce', '##ri', 'rk', '##sp', 
 'ce', '##le', 'is', '白', '高', '大', '夏', '國', '##ri', 'is', '⿰', '火', '商', '##gr', 'ce', '##ap', 'he', '##cc', 'x0', '0', '0', '⿰', '火', '高']
 """

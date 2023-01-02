@@ -3,7 +3,6 @@ import os
 
 from logzero import logger
 
-import UnicodeTokenizer
 
 from ZiCutter import He2Zi
 
@@ -29,13 +28,6 @@ def valid(seq, Ji):
         if x not in Ji:
             return 0
     return 1
-
-
-def odd(seq):
-    for x in seq:
-        if not UnicodeTokenizer.detect_hanzi(x):
-            return 1
-    return 0
 
 
 def loadHeZi(path, JiZi=set(GouJian)):
