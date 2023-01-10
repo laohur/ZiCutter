@@ -45,19 +45,18 @@ def loadHeZi(path, JiZi=set(GouJian)):
 
 Nums = ''.join(chr(i) for i in range(ord('0'), ord('9')+1))
 Az = ''.join(chr(i) for i in range(ord('a'), ord('z')+1))
-Alphabet = Nums+Az
+Alphabet = Nums+Az  # 36
 
 
 def gen_bigrams():
-    # az2 = [x+y for x in az for y in az]
-    # nums2 = [x+y for x in nums for y in nums]
-    grams2 = [x+y for x in Alphabet for y in Alphabet]
-    idxs =  ["##"+x for x in Az]+["##"+x+y for x in Az for y in Az]
-    words = list(Alphabet)+grams2+idxs
+    # az2 = [x+y for x in Az for y in Az] # 676
+    # nums2 = [x+y for x in Nums for y in Nums] # 100
+    idxs = [f"##{x}" for x in range(100)]  # 100
+    # words = list(Alphabet)+az2+nums2+idxs  # 912
+    words = list(Alphabet)+idxs  # 136
     return words
 
 
-# 1358
 Bigrams = gen_bigrams()
 
 
@@ -116,18 +115,8 @@ class ZiCutter:
         return ids
 
     def cutRare(self, char):
-        tokens = []
-        try:
-            name = unicodedata.name(char)
-            l = name[:2].strip().strip('-').lower()
-            r = name[-2:].strip().strip('-').lower()
-            tokens += ['##'+l, r]
-        except:
-            catg = unicodedata.category(char)
-            l = catg[:2].strip().strip('-').lower()
-            r = hex(ord(char))[-2:].strip().strip('-')
-            tokens = ['##'+l, r]
-        return tokens
+        point = ord(char) % 100
+        return [f"##{point}"]
 
     def cutChar(self, char):
         if char in self.vocab:
@@ -143,5 +132,4 @@ class ZiCutter:
         tokens = []
         for x in line:
             tokens += self.cutChar(x)
-        tokens = [x for x in tokens if x]
         return tokens
