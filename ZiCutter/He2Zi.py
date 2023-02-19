@@ -93,16 +93,17 @@ def build(JiZi, ChaiZiPath, YiTiZiPath,  HeZiPath, JiZiPath):
 
     doc = open(ChaiZiPath).read().splitlines()
     ChaiZi = [x.split('\t') for x in doc]
-    ChaiZi = [x for x in ChaiZi if ord(x[0])>10000]
+    ChaiZi = [x for x in ChaiZi if ord(x[0]) > 10000]
 
     logger.info(f"JiZi:{len(JiZi)} ChaiZi:{len(ChaiZi)} YiTiZi:{len(YiTiZi)}")
     HeZi = chai(JiZi, ChaiZi, YiTiZi)
 
     Base = set(''.join(x for x in HeZi.values()))
     logger.info(f"HeZi:{len(HeZi)} Base:{len(Base)} ")
-    logger.info(f" useless: {len(JiZi-Base)} {''.join(JiZi-Base)} ")
+
+    logger.info(f"JiZi-Base: {len(JiZi-Base)} {''.join(JiZi-Base)} ")
     diff = Base-JiZi
-    logger.info(("jizi diff", len(JiZi),  len(diff), ''.join(diff)))
+    logger.info(f"Base-JiZi:{len(diff)}  {''.join(diff)}")
     assert len(diff) == 0
 
     Base = list(Base)
@@ -119,7 +120,6 @@ def build(JiZi, ChaiZiPath, YiTiZiPath,  HeZiPath, JiZiPath):
             f.write(l+'\n')
 
     logger.info(f"HeZi build success -> {HeZiPath}  {JiZiPath}")
-
 
 if __name__ == "__main__":
     JiZi = open("YuanZi/YuanZi.txt").read().splitlines()

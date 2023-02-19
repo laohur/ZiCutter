@@ -28,15 +28,14 @@ Unicode 14.0 adds 838 characters, for a total of 144,697 characters. (https://ww
 minium 
 az 26 
 number 10
-bigram 1296
-index 26
-YuanZi 2365
-total 3723
+Gram 36
+YuanZi 2366
+total 2402
 
 ## cut name rare character
 name = name of 'x'    
 tokens=[name[:2],"#"+name[-1]]    
-base: bigrams, [a~z][a~z],[0~9][0~9],#[a~z],#[0~9]    
+base: Grams, [a~z][a~z],[0~9][0~9],#[a~z],#[0~9]    
 
 
     '😀' : name is 'GRINNING FACE'

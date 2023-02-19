@@ -16,12 +16,13 @@ with open(path.join(here, 'readme.md')) as f:
 setup(
     name="ZiCutter",
     packages=find_packages(),
-    version='0.0.8',
+    version='0.0.9',
     description='ZiCutter: cut character smaller',
     long_description=long_description,
     long_description_content_type="text/markdown",
     python_requires='>=3.0',
     install_requires=[
+        "UnicodeTokenizer",
         "logzero",
     ],
 

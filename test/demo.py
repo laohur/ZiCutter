@@ -6,128 +6,48 @@ from logzero import logger
 
 from ZiCutter.ZiCutter import ZiCutter 
 
-
-def get_langs():
-    alphabet = ''.join(chr(x) for x in range(ord('a'), ord('z')+1))
-    langs = [x+y for x in alphabet for y in alphabet]
-    return langs
-
-
 def char_name(x):
     try:
         name = unicodedata.name(x)
-        words = name.split(' ')
-        return words
     except Exception as e:
-        return []
-
-
-def count_name():
-    freq = collections.Counter()
-    for i in range(0x110000):
-        words = char_name(chr(i))
-        if not words:
-            continue
-        x = words[-1][-2:].lstrip('-').lower()
-        freq[x] += 1
-    words = [(k, v) for k, v in freq.items()]
-    words.sort(key=lambda x: -x[1])
-    with open("name_tail_freq.txt", "w")as f:
-        for k, v in words:
-            f.write(f'{k}\t{v}\n')
-    logger.info(freq)
-
-
-def char_name_first(x):
-    try:
-        name = unicodedata.name(x)
-        words = name.split(' ')
-        return words[0]
-    except Exception as e:
-        logger.error(x)
-        catg = unicodedata.category(x)
-        return catg
-
-
-def test_first(dir):
-    p = dir+'/word_frequency.tsv'
-    if not os.path.exists(p):
-        return
-    logger.info(p)
-    store = collections.Counter()
-    for l in open(p):
-        t = l.split('\t')[0]
-        if not t:
-            continue
-        names = [char_name_first(x) for x in t]
-        if len(set(names)) > 1:
-            logger.error((l, names))
-        store[names[0]] += 1
-    # logger.info(store)
-    return store
-
-def count_first():
-    freq=collections.Counter()
-    langs = get_langs()
-    for lang in langs:
-        # dir = f"C:/data/lang/{lang}"
-        dir = f"C:/data/languages/{lang}"
-        # test_lang(dir)
-        c=test_first(dir)
-        if c:
-            freq|=c
-    words = [(k, v) for k, v in freq.items()]
-    words.sort(key=lambda x: -x[1])
-    with open("name_first_freq.txt", "w")as f:
-        for k, v in words:
-            f.write(f'{k}\t{v}\n')
-    logger.info(freq)
-
-
+        name=unicodedata.category(x)+" "+x
+    return name
 
 def test_module():
     from ZiCutter import ZiCutter
 
-    logger.info((ZiCutter.Bigrams[:100], len(ZiCutter.Bigrams)))  # 2008
     logger.info((ZiCutter.GouJian, len(ZiCutter.GouJian)))  # 2365
     cutter=ZiCutter.ZiCutter()
     logger.info(len(cutter.vocab))  # 4399
     for i in range(0x10FFFF):
         c = chr(i)
-        ts=cutter.cutChar(c)
+        ts=cutter.cutToken(c)
         for x in ts:
             if x not in cutter.vocab:
-                logger.error((chr(i),ts,unicodedata.name(c)))
+                logger.error((chr(i),ts,char_name(c)))
                 d=0
 
 def test_lang(dir):
-
-    # build
-    cutter = ZiCutter(dir=dir)
-    cutter.build()
-
-    # use
     cutter = ZiCutter(dir=dir)
     line = "'〇㎡[คุณจะจัดพิธีแต่งงานเมื่อไรคะัีิ์ื็ํึ]Ⅷpays-g[ran]d-blanc-élevé » (白高大夏國)熵😀'\x0000熇"
     logger.info(cutter.tokenize(line))
 
 
 if __name__ == "__main__":
-    # count_name()
-    # count_first()
-    test_module()
+    # test_module()
 
     langs = ["", 'sw', 'ur', 'ar', 'en', 'fr',
              'ja', 'ru', 'zh', 'th', 'global']
-    # langs = get_langs()
 
     for lang in langs:
         # dir = f"C:/data/lang/{lang}"
         dir = f"C:/data/languages/{lang}"
         if not os.path.exists(dir):
             continue
+        # build
+        # cutter = ZiCutter(dir=dir)
+        # cutter.build()
         test_lang(dir)
-        # test_first(dir)
         # break
 
 

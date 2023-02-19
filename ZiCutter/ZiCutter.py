@@ -3,6 +3,7 @@ import os
 
 from logzero import logger
 
+from UnicodeTokenizer import UnicodeTokenizer
 
 from ZiCutter import He2Zi
 
@@ -48,23 +49,24 @@ Az = ''.join(chr(i) for i in range(ord('a'), ord('z')+1))
 Alphabet = Nums+Az  # 36
 
 
-def gen_bigrams():
+def gen_grams():
     # az2 = [x+y for x in Az for y in Az] # 676
     # nums2 = [x+y for x in Nums for y in Nums] # 100
-    idxs = [f"##{x}" for x in range(100)]  # 100
+    idxs = [f"##{x}" for x in range(10)]  # 100
     # words = list(Alphabet)+az2+nums2+idxs  # 912
     words = list(Alphabet)+idxs  # 136
     return words
 
 
-Bigrams = gen_bigrams()
+Grams = gen_grams()
 
 
 class ZiCutter:
-    def __init__(self, dir=""):
+    def __init__(self, dir="",do_lower_case=True):
         """
         HeZiBase="","Yuan","Ji"
         """
+        self.do_lower_case = do_lower_case
         self.vocab = set()
         self.HeZi = {}
 
@@ -73,10 +75,11 @@ class ZiCutter:
 
         self.dir = dir
         self.load(dir)
+        self.unicodeTokenizer = UnicodeTokenizer(do_lower_case=self.do_lower_case,never_split=self.vocab)
 
     def load(self, dir):
         JiZi = set(GouJian)
-        self.vocab = set(Bigrams) | JiZi
+        self.vocab = set(Grams) | JiZi
         HeZiPath = os.path.join(dir, "HeZi.txt")
         if not os.path.exists(HeZiPath):
             dir = self.HanZiDir
@@ -98,38 +101,39 @@ class ZiCutter:
 
     def build(self, roots=[]):
         logger.warning(f" {self.dir} building")
-        vocab = set(Bigrams) | set(GouJian) | set(x for x in roots)
+        vocab = set(Grams) | set(GouJian) | set(x for x in roots)
         JiZi = [x for x in vocab if len(x) == 1]
         logger.info(f"receive roots:{len(roots)} JiZi:{len(JiZi)}")
+
         HeZiPath = os.path.join(self.dir, "HeZi.txt")
         JiZiPath = os.path.join(self.dir, "JiZi.txt")
-        He2Zi.build(JiZi, ChaiZiPath=os.path.join(self.HanZiDir, "ChaiZi.txt"), YiTiZiPath=os.path.join(self.HanZiDir, "YiTiZi.txt"),
-                    HeZiPath=HeZiPath, JiZiPath=JiZiPath)
+        ChaiZiPath=os.path.join(self.HanZiDir, "ChaiZi.txt")
+        YiTiZiPath=os.path.join(self.HanZiDir, "YiTiZi.txt")
+        He2Zi.build(JiZi, ChaiZiPath, YiTiZiPath,HeZiPath, JiZiPath)
         self.load(self.dir)
 
-    def cutHan(self, zi, shrink=True):
+    def cutHanzi(self, zi, shrink=True):
         ids = self.HeZi.get(zi, zi)
         if shrink:
             s = slim(ids)
             return s
         return ids
 
-    def cutRare(self, char):
-        point = ord(char) % 100
-        return [f"##{point}"]
+    def cutWord(self, word):
+        if len(word)==1:
+            word=self.cutHanzi(word)
+        token=self.cutToken(word)
+        return token
 
-    def cutChar(self, char):
-        if char in self.vocab:
-            return [char]
-        if char in self.HeZi:
-            t = self.cutHan(char)
-            return list(t)
-        else:
-            t = self.cutRare(char)
-            return t
+    def cutToken(self, token):
+        point = sum(ord(x) for x in token)% 10
+        return f"##{point}"
 
     def tokenize(self, line):
+        words = self.unicodeTokenizer.tokenize(line)
         tokens = []
-        for x in line:
-            tokens += self.cutChar(x)
+        for x in words:
+            y=self.cutHanzi(x)
+            z=self.cutWord(y)
+            tokens.append(z)
         return tokens
