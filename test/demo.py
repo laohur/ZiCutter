@@ -19,22 +19,26 @@ def test_module():
     logger.info((ZiCutter.GouJian, len(ZiCutter.GouJian)))  # 2365
     cutter=ZiCutter.ZiCutter()
     logger.info(len(cutter.vocab))  # 4399
-    for i in range(0x10FFFF):
-        c = chr(i)
-        ts=cutter.cutToken(c)
-        for x in ts:
-            if x not in cutter.vocab:
-                logger.error((chr(i),ts,char_name(c)))
-                d=0
+    # for i in range(0x10FFFF):
+    #     c = chr(i)
+    #     ts=cutter.cutToken(c)
+    #     for x in ts:
+    #         if x not in cutter.vocab:
+    #             logger.error((chr(i),ts,char_name(c)))
+    #             d=0
 
 def test_lang(dir):
     cutter = ZiCutter(dir=dir)
     line = "'〇㎡[คุณจะจัดพิธีแต่งงานเมื่อไรคะัีิ์ื็ํึ]Ⅷpays-g[ran]d-blanc-élevé » (白高大夏國)熵😀'\x0000熇"
-    logger.info(cutter.tokenize(line))
+    tokens=cutter.tokenize(line)
+    logger.info(tokens)
+    l=cutter.unicodeTokenizer.detokenize(tokens)
+    logger.info(cutter.combineWord(l))
 
 
 if __name__ == "__main__":
-    # test_module()
+    test_module()
+    test_lang("")
 
     langs = ["", 'sw', 'ur', 'ar', 'en', 'fr',
              'ja', 'ru', 'zh', 'th', 'global']
@@ -47,7 +51,7 @@ if __name__ == "__main__":
         # build
         # cutter = ZiCutter(dir=dir)
         # cutter.build()
-        test_lang(dir)
+        # test_lang(dir)
         # break
 
 
